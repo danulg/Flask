@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -7,7 +7,7 @@
     <meta name="author" content="@gotoariel">
     <!-- <link rel="icon" href="favicon.ico"> -->
 
-    <title>Stock Price Tracker</title>
+    <title>Price Comparison</title>
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -16,19 +16,24 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-12 text-left">
-          <h2>Please enter the stock ticker you wish to track</h2>
-          <form action="/pricechart", method="get">
-            <label for="sname">Stock Ticker:</label>
-            <input type="text" id="sname" name="sname"><br><br>
-            <input type="submit" value="Submit">
-</form>
-         <!-- <ul>
+          <h2>Your input was:</h2>
+            {{ forward_message }}
+
+           <ul>
+                <li><a href="/">Return to Home Page</a></li>
+           </ul>
+               <!-- <li><a target="_blank" href="https://www.heroku.com/">Heroku</a></li>
+                <li><a target="_blank" href="http://flask.pocoo.org/">Flask</a></li>
+                <li><a target="_blank" href="http://jinja.pocoo.org/docs/2.9/">Jinja2</a></li>
+                <li><a target="_blank" href="http://getbootstrap.com/">Bootstrap</a></li>
+            </ul> -->
+          <!--<ul>
             <li><a href="/about">About</a></li>
             <li><a target="_blank" href="https://www.heroku.com/">Heroku</a></li>
             <li><a target="_blank" href="http://flask.pocoo.org/">Flask</a></li>
             <li><a target="_blank" href="http://jinja.pocoo.org/docs/2.9/">Jinja2</a></li>
             <li><a target="_blank" href="http://getbootstrap.com/">Bootstrap</a></li>
-          </ul> -->
+          </ul>-->
         </div>
       </div>
     </div>
@@ -39,3 +44,4 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   </body>
 </html>
+
