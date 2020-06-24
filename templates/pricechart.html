@@ -1,16 +1,36 @@
 ﻿<!doctype html>
 <html lang="en">
-  <head>
+<head>
+  <title>Figure examples</title>
+  <link
+    href="http://cdn.pydata.org/bokeh/release/bokeh-0.12.5.min.css"
+    rel="stylesheet" type="text/css">
+<link
+    href="http://cdn.pydata.org/bokeh/release/bokeh-widgets-0.12.5.min.css"
+    rel="stylesheet" type="text/css">
+
+<script src="http://cdn.pydata.org/bokeh/release/bokeh-0.12.5.min.js"></script>
+<script src="http://cdn.pydata.org/bokeh/release/bokeh-widgets-0.12.5.min.js"></script>
+
+ </head>
+ <body>
+
+  {{ script|safe }}
+   {{ div|safe }}
+
+ </body>
+
+ <!-- <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Skeleton application demoing Heroku and Flask integration.">
-    <meta name="author" content="@gotoariel">
+    <meta name="author" content="@gotoariel"> -->
     <!-- <link rel="icon" href="favicon.ico"> -->
 
-    <title>Price Comparison</title>
+    <!--<title>Price Comparison</title>-->
 
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+   <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   </head>
   <body>
     <div class="container">
@@ -18,10 +38,20 @@
         <div class="col-lg-12 text-left">
           <h2>Your input was:</h2>
             {{ forward_message }}
+            <head>
+            <title>Figure examples</title>
+              <link rel="stylesheet" href="http://cdn.bokeh.org/bokeh/release/bokeh-0.10.0.min.css" type="text/css" />
+              <script type="text/javascript" src="http://cdn.bokeh.org/bokeh/release/bokeh-0.10.0.min.js"></script>
+                  {{ script|safe }}
+ </head>
+ <body>
+  <div class='bokeh'>
+   {{ div|safe }}
+  </div>
 
            <ul>
                 <li><a href="/">Return to Home Page</a></li>
-           </ul>
+           </ul> -->
                <!-- <li><a target="_blank" href="https://www.heroku.com/">Heroku</a></li>
                 <li><a target="_blank" href="http://flask.pocoo.org/">Flask</a></li>
                 <li><a target="_blank" href="http://jinja.pocoo.org/docs/2.9/">Jinja2</a></li>
