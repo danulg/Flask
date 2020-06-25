@@ -1,7 +1,10 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, jsonify
 from bokeh.plotting import figure, show, output_file
-from bokeh.resources import CDN
-from bokeh.embed import components, file_html
+from bokeh.embed import components
+import requests
+from pandas.io.json import json_normalize
+import simplejson as json
+import pandas as pd
 
 
 app = Flask(__name__)
@@ -18,13 +21,24 @@ def about():
 @app.route('/pricechart', methods=['POST', 'GET'])
 def pricechart():
   name = request.args.get('sname')
-  msg = "Your input was " + name
-  fig = figure(title="Sensor data")
+  msg = "Monthly Data for " + name
+  monthly_data = 'https://www.alphavantage.co/query?function=TIME_SERIES_MONTHLY&symbol='+name+'&apikey=SJFMXK64TWAWK71Y'
+  dsm = requests.get(monthly_data)
+  dsm = dsm.json()
+  dsm = pd.DataFrame(dsm)
+  dsm_date = dsm['Meta Data']
+  dsm_ts = dsm['Monthly Time Series'][4:16]
+  #dsm_ts = pd.DataFrame.from_dict(dsm_ts)
+  print('time series is', dsm_ts)
+  print('meta data is', dsm_date)
+
+  
+
+
+  fig = figure(title=name)
   fig.line([1, 2, 3, 4], [2, 4, 6, 8])
-  #temp_graph = file_html(fig,CDN,"Plot")
   script, div = components(fig)
-  #show(fig) -picture is drawn as required. Issues with render template
-  return render_template('pricechart.html', forward_message=msg, script=script, div=div)
+  return render_template('pricechart.html', script=script, div=div)
 
 
 
