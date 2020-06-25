@@ -1,6 +1,7 @@
-from flask import Flask, render_template, request, redirect, jsonify
-from bokeh.plotting import figure, show, output_file
+from flask import Flask, render_template, request #, redirect, jsonify
+from bokeh.plotting import figure #, show, output_file
 from bokeh.embed import components
+from bokeh.models import SingleIntervalTicker, LinearAxis
 import requests
 from pandas.io.json import json_normalize
 import pandas as pd
@@ -32,6 +33,7 @@ def pricechart():
 
   ds = ds['Time Series (Daily)']
   ds = pd.DataFrame.from_dict(json_normalize(ds))
+  print(ds)
 
   counter = 0
   col_counter = 0
@@ -43,6 +45,10 @@ def pricechart():
     ys.append(ds.iloc[0, col_counter])
     col_counter+=5
     counter+=1
+
+  max_y = max(ys)
+  min_y = min(ys)
+  print(max_y, min_y)
 
   fig = figure(title=msg)
   fig.line(xs, ys)
