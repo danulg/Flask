@@ -3,7 +3,6 @@ from bokeh.plotting import figure, show, output_file
 from bokeh.embed import components
 import requests
 from pandas.io.json import json_normalize
-import numpy as np
 import pandas as pd
 
 
@@ -24,48 +23,27 @@ def pricechart():
   msg = "Monthly Data for " + name
 
   #Request data
-  monthly_data = 'https://www.alphavantage.co/query?function=TIME_SERIES_MONTHLY&symbol='+name+'&apikey=SJFMXK64TWAWK71Y'
-  dsm = requests.get(monthly_data)
+  monthly_data = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol='+name+'&apikey=SJFMXK64TWAWK71Y'
+  ds = requests.get(monthly_data)
 
   #format data
-  dsm = dsm.json()
-  dsm = dsm['Monthly Time Series']
-  dsm = pd.DataFrame.from_dict(json_normalize(dsm))
+  ds = ds.json()
+  #print(ds)
 
-  #prep slice of data for drawing
-  dsm = dsm.iloc[:,np.r_[0:72]]
-  print(dsm)
-  xs = [0,1,2,3,4,5,6,7,8,9,10,11]
-  ys = [0,0,0,0,0,0,0,0,0,0,0,0]
+  ds = ds['Time Series (Daily)']
+  ds = pd.DataFrame.from_dict(json_normalize(ds))
+
   counter = 0
-  col_counter = 1
-  length = len(dsm.columns)
-
-  #Pick slice for drawing: issue with skip length
-  while(col_counter < length) and counter <=11:
-    ys[counter] = dsm.iloc[0, col_counter]
-    print(ys[counter])
+  col_counter = 0
+  xs = []
+  ys = []
+  length = len(ds.columns)
+  while(col_counter<length):
+    xs.append(counter)
+    ys.append(ds.iloc[0, col_counter])
+    col_counter+=5
     counter+=1
-    col_counter+=6
 
-
-  print(ys)
-
-  #
-
-
-  #dsm = json.load(dsm)
-  #print(type(dsm))
-
-  #dsm = pd.DataFrame(dsm)
-  #dsm_ts = dsm['Monthly Time Series'][4:16]
-  #print('time series is', dsm_ts)
-
-
-
-
-
-  #Draw
   fig = figure(title=msg)
   fig.line(xs, ys)
   script, div = components(fig)
