@@ -1,10 +1,12 @@
-from flask import Flask, render_template, request #, redirect, jsonify
-from bokeh.plotting import figure #, show, output_file
+from flask import Flask, render_template, request
+from bokeh.plotting import figure
 from bokeh.embed import components
 from bokeh.models import SingleIntervalTicker, LinearAxis
 import requests
 from pandas.io.json import json_normalize
 import pandas as pd
+
+
 
 
 app = Flask(__name__)
@@ -19,41 +21,43 @@ def about():
 
 @app.route('/pricechart', methods=['POST', 'GET'])
 def pricechart():
-  #Retrive information from /
-  name = request.args.get('sname')
-  msg = "Monthly Data for " + name
+  try: #Retrive information from /
+    name = request.args.get('sname')
+    msg = "Monthly Data for " + name
 
-  #Request data
-  monthly_data = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol='+name+'&apikey=SJFMXK64TWAWK71Y'
-  ds = requests.get(monthly_data)
+    #Request data
+    monthly_data = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol='+name+'&apikey=SJFMXK64TWAWK71Y'
+    ds = requests.get(monthly_data)
 
-  #format data
-  ds = ds.json()
-  #print(ds)
+    #format data
+    ds = ds.json()
+    ds = ds['Time Series (Daily)']
+    ds = pd.DataFrame.from_dict(json_normalize(ds))
+    #print(ds)
 
-  ds = ds['Time Series (Daily)']
-  ds = pd.DataFrame.from_dict(json_normalize(ds))
-  print(ds)
+    #Create arrays to pass to bokeh for plotting
+    counter = 0
+    col_counter = 0
+    xs = []
+    ys = []
+    length = 150 #len(ds.columns)
+    while(col_counter<length):
+      xs.append(counter)
+      ys.append(ds.iloc[0, length-col_counter])
+      col_counter+=5
+      counter+=1
 
-  counter = 0
-  col_counter = 0
-  xs = []
-  ys = []
-  length = len(ds.columns)
-  while(col_counter<length):
-    xs.append(counter)
-    ys.append(ds.iloc[0, col_counter])
-    col_counter+=5
-    counter+=1
+    #Draw the figure
+    fig = figure(title=msg)
+    fig.line(xs, ys)
+    script, div = components(fig)
+    return render_template('pricechart.html', script=script, div=div)
 
-  max_y = max(ys)
-  min_y = min(ys)
-  print(max_y, min_y)
+  except:
+    return render_template('error.html')
 
-  fig = figure(title=msg)
-  fig.line(xs, ys)
-  script, div = components(fig)
-  return render_template('pricechart.html', script=script, div=div)
+
+
 
 @app.route('/error')
 def error():
